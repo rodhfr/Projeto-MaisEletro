@@ -16,3 +16,5 @@ c) Para cada venda realizada, cadastre as compras realizadas pelos clientes (as 
 d) Totalize as vendas realizadas;  
 e) Faça o sorteio entre os participantes. Somente os clientes que compraram mais que cinco produtos deverão participar. Será sorteado um número, e o cliente que tiver o registro com esse número será o ganhador; 🎉  
 f) Sair. 🚪
+
+![WhiteBoard(https://raw.githubusercontent.com/rodhfr/Projeto_MaisEletro/main/whiteboard/imagem_reduzida.png)
