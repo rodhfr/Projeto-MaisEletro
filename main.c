@@ -429,7 +429,7 @@ int realizarSorteio(Tcliente vetorClientes[], int qntdClientesLoja, Tsorteio *so
 
     // Verifica clientes qualificados
     for (int v = 0; v < qntdClientesLoja; v++) {
-        if (vetorClientes[v].qtdItensComprados > 5) {
+        if (vetorClientes[v].qtdItensComprados >= 5) {
             int index = sorteio->qtdClientesQualificados;
             sorteio->clientesQualificados[index].idCliente = vetorClientes[v].idCliente;
             strcpy(sorteio->clientesQualificados[index].nome, vetorClientes[v].nome);
