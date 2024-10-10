@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 #define MAX 100
 
@@ -54,58 +55,92 @@ void limpar_buffer() {
     while ((c = getchar()) != '\n' && c != EOF) {}  // Limpa o buffer de entrada
 }
 
+void ler_string (char *str, int tamanho)
+{
+    fgets(str, tamanho, stdin);
+    size_t len = strlen(str);
+    if (len>0 && str[len-1] == '\n')
+    {
+        str[len-1] = '\0';
+    }
+    else
+    {
+        limpar_buffer();
+    }
+}
+
+void listaClientes(Tclientes vetor_clientes[], int *variavel_contagem_vetor_cliente)
+{
+    printf("%-10s %-12s %-50s\n", "Codigo", "CPF", "Nome");
+    for (int i=0;i<(*variavel_contagem_vetor_cliente);i++)
+    {
+        printf("%-10d %-12s %-30s\n", vetor_clientes[i].numero_registro_cliente, 
+        vetor_clientes[i].cpf, vetor_clientes[i].nome);
+    }
+}
+
 void cadastro_cliente(Tclientes vetor_clientes[], int *variavel_contagem_vetor_cliente, int *quantidade_de_clientes) {
     int index = *variavel_contagem_vetor_cliente;
 
     printf("Digite o nome do Cliente: ");
-    fgets(vetor_clientes[index].nome, MAX, stdin);
+    ler_string(vetor_clientes[index].nome, MAX);
     limpar_buffer();  // Limpa o buffer após fgets
     vetor_clientes[index].numero_registro_cliente = index;
     (*variavel_contagem_vetor_cliente)++;
 
     printf("Digite o dia de nascimento do cliente: ");
-    fgets(vetor_clientes[index].data_nascimento.dia, 3, stdin);
+    ler_string(vetor_clientes[index].data_nascimento.dia, 3);
     limpar_buffer();
 
     printf("Digite o mes de nascimento do cliente: ");
-    fgets(vetor_clientes[index].data_nascimento.mes, 3, stdin);
+    ler_string(vetor_clientes[index].data_nascimento.mes, 3);
     limpar_buffer();
 
     printf("Digite o ano de nascimento do cliente: ");
-    fgets(vetor_clientes[index].data_nascimento.ano, 5, stdin);
+    ler_string(vetor_clientes[index].data_nascimento.ano, 5);
     limpar_buffer();
 
     printf("Digite CPF do cliente: ");
-    fgets(vetor_clientes[index].cpf, MAX, stdin);
+    ler_string(vetor_clientes[index].cpf, MAX);
     limpar_buffer();
 
     printf("Digite RG do cliente: ");
-    fgets(vetor_clientes[index].rg, MAX, stdin);
+    ler_string(vetor_clientes[index].rg, MAX);
     limpar_buffer();
 
     printf("Digite a cidade onde mora: ");
-    fgets(vetor_clientes[index].endereco.cidade, MAX, stdin);
+    ler_string(vetor_clientes[index].endereco.cidade, MAX);
     limpar_buffer();
 
     printf("Digite o bairro onde mora: ");
-    fgets(vetor_clientes[index].endereco.bairro, MAX, stdin);
+    ler_string(vetor_clientes[index].endereco.bairro, MAX);
     limpar_buffer();
 
     printf("Digite CEP: ");
-    fgets(vetor_clientes[index].endereco.cep, MAX, stdin);
+    ler_string(vetor_clientes[index].endereco.cep, MAX);
     limpar_buffer();
 
     printf("Digite a rua onde mora: ");
-    fgets(vetor_clientes[index].endereco.rua, MAX, stdin);
+    ler_string(vetor_clientes[index].endereco.rua, MAX);
     limpar_buffer();
 
     printf("Digite o numero da casa: ");
-    fgets(vetor_clientes[index].endereco.numero_residencia, MAX, stdin);
+    ler_string(vetor_clientes[index].endereco.numero_residencia, MAX);
     limpar_buffer();
-
     (*quantidade_de_clientes)++;
 
     printf("Cadastro de cliente numero: %d \n", vetor_clientes[index].numero_registro_cliente);
+}
+
+void ListaDeProdutos (Tprodutos vetor_produtos[], int *variavel_contagem_vetor_produto)
+{
+    printf("%-10s %-20s %-10s\n", "Codigo", "Descricao", "Quantidade");
+    for (int i=0;i<(*variavel_contagem_vetor_produto); i++)
+    {
+        //printf("\nCodigo: %d Nome: %s Quantidade:%d\n", vetor_produtos[i].codigo_produto, 
+        printf("%-10d %-20s %-10d\n", vetor_produtos[i].codigo_produto, 
+        vetor_produtos[i].descricao, vetor_produtos[i].qntd_estoque);
+    }
 }
 
 void cadastro_produtos(Tprodutos vetor_produtos[], int *variavel_contagem_vetor_produto){
@@ -115,7 +150,7 @@ void cadastro_produtos(Tprodutos vetor_produtos[], int *variavel_contagem_vetor_
     (*variavel_contagem_vetor_produto)++;
 
     printf("Digite a descricao do produto: ");
-    fgets(vetor_produtos[index].descricao, MAX, stdin);
+    ler_string(vetor_produtos[index].descricao, MAX);
     limpar_buffer();
 
     printf("Digite a quantidade em estoque: ");
@@ -129,57 +164,85 @@ void cadastro_produtos(Tprodutos vetor_produtos[], int *variavel_contagem_vetor_
     printf("Cadastro de produto numero: %d\n", vetor_produtos[index].codigo_produto);
 }
 
-int vendas_realizadas(Tclientes vetor_clientes[], Tprodutos vetor_produtos[], Tvendas vetor_vendas[], Tcompras vetor_compras[], int *variavel_contagem_vetor_vendas, int *variavel_contagem_vetor_produto, int quantidade_de_vendas, int *quantidade_de_sorteios){
-
+void vendas_realizadas(Tclientes vetor_clientes[],Tprodutos vetor_produtos[], Tvendas vetor_vendas[], Tcompras vetor_compras[], int *variavel_contagem_vetor_vendas, int *variavel_contagem_vetor_produto, int *quantidade_de_vendas, int *quantidade_de_sorteios, int *variavel_contagem_vetor_clientes)
+{
     int index = *variavel_contagem_vetor_vendas;
     vetor_vendas[index].codigo_venda = *variavel_contagem_vetor_vendas;
     (*variavel_contagem_vetor_vendas)++;
 
+    printf("Lista dos clientes: \n");
+    listaClientes(vetor_clientes, variavel_contagem_vetor_clientes);
+
     printf("Qual o numero do registro do cliente que esta comprando? ");
     scanf("%d", &vetor_vendas[index].numero_registro_cliente);
+    limpar_buffer(); 
 
-    printf("Qual o codigo do produto? ");
-    scanf("%d", &vetor_vendas[index].codigo_produto);
+    int clienteEncontrado = 0;
+    for (int i=0;i<(*variavel_contagem_vetor_clientes);i++)
+    {
+        if (vetor_clientes[i].numero_registro_cliente == vetor_vendas[index].numero_registro_cliente)
+        {
+            clienteEncontrado = 1;
 
-    printf("Quantos produtos esse cliente comprou? ");
-    scanf("%d", &vetor_vendas[index].qntd_eletrodomesticos_adquiridos);
+            printf("Lista dos produtos: \n");
+            ListaDeProdutos(vetor_produtos, variavel_contagem_vetor_produto);
+            printf("Quantos produtos esse cliente comprou? ");
+            scanf("%d", &vetor_vendas[index].qntd_eletrodomesticos_adquiridos);
+            limpar_buffer(); 
 
-    limpar_buffer();  // Limpa o buffer após o uso de scanf
+            printf("Qual o codigo do produto? ");
+            scanf("%d", &vetor_vendas[index].codigo_produto);
+            limpar_buffer(); 
 
-    if (vetor_vendas[index].qntd_eletrodomesticos_adquiridos > 5){
-        vetor_compras[index].codigo_produto = vetor_vendas[index].codigo_produto;
-        vetor_compras[index].numero_registro_cliente = vetor_vendas[index].numero_registro_cliente;
-        vetor_compras[index].qnt_eletrodomesticos_adquiridos = vetor_vendas[index].qntd_eletrodomesticos_adquiridos;
-        vetor_compras[index].codigo_venda = vetor_vendas[index].codigo_venda;
-    }
+            int produto_encontrado = 0;  // Verificação se o produto foi encontrado
+            for (int i=0; i<(*variavel_contagem_vetor_vendas); i++)
+            {
+                if (vetor_produtos[i].codigo_produto == vetor_vendas[index].codigo_produto)
+                {
+                    if (vetor_produtos[i].qntd_estoque < vetor_vendas[index].qntd_eletrodomesticos_adquiridos)
+                    {
+                        printf("\nNao tem produto suficiente em estoque");
+                    }
+                    else
+                    {
+                        if (vetor_vendas[index].qntd_eletrodomesticos_adquiridos > 5)
+                        {
+                            vetor_compras[index].codigo_produto = vetor_vendas[index].codigo_produto;
+                            vetor_compras[index].numero_registro_cliente = vetor_vendas[index].numero_registro_cliente;
+                            vetor_compras[index].qnt_eletrodomesticos_adquiridos = vetor_vendas[index].qntd_eletrodomesticos_adquiridos;
+                            vetor_compras[index].codigo_venda = vetor_vendas[index].codigo_venda;
+                            (*quantidade_de_sorteios)++;
+                        }
+                        float valor_unitario_do_produto = 0;  // Certifique-se de que seja float
+                        produto_encontrado = 1;  // Produto encontrado
+                        valor_unitario_do_produto = vetor_produtos[i].valor_unitario;
+                        float valor_total = vetor_vendas[index].qntd_eletrodomesticos_adquiridos * valor_unitario_do_produto;
+                        vetor_vendas[index].total_a_pagar = valor_total;
 
-    float valor_unitario_do_produto = 0;  // Certifique-se de que seja float
-    int produto_encontrado = 0;  // Verificação se o produto foi encontrado
+                        printf("Valor Total da compra: %.2f\n", valor_total);
+                        (*quantidade_de_vendas)++;
+                        vetor_produtos[i].qntd_estoque -= vetor_vendas[index].qntd_eletrodomesticos_adquiridos;
 
-    for (int i = 0; i < *variavel_contagem_vetor_produto; i++) {
-        if (vetor_produtos[i].codigo_produto == vetor_vendas[index].codigo_produto){
-            valor_unitario_do_produto = vetor_produtos[i].valor_unitario;
-            produto_encontrado = 1;  // Produto encontrado
-            (*quantidade_de_sorteios)++;
-            break;  // Produto encontrado, sai do loop
+                        break;
+                    }
+                }
+            }
+            if (!produto_encontrado) 
+            {
+                printf("Erro: Produto com o codigo %d nao encontrado!\n", vetor_vendas[index].codigo_produto);
+            }
+
+            break;
         }
+
     }
-
-    if (!produto_encontrado) {
-        printf("Erro: Produto com o código %d não encontrado!\n", vetor_vendas[index].codigo_produto);
-        return quantidade_de_vendas;  // Sai da função sem incrementar vendas
+    if(!clienteEncontrado)
+    {
+        printf("Erro: Cliente nao existe");
     }
-
-    float valor_total = vetor_vendas[index].qntd_eletrodomesticos_adquiridos * valor_unitario_do_produto;
-    vetor_vendas[index].total_a_pagar = valor_total;
-
-    printf("Valor Total da compra: %.2f\n", valor_total);
-
-    quantidade_de_vendas++;
-    return quantidade_de_vendas;
 }
 
-int totalize_vendas(Tvendas vetor_vendas[], const int quantidade_de_vendas){
+int totalize_vendas(Tvendas vetor_vendas[], int quantidade_de_vendas){
     int total_das_vendas = 0;
     for (int i = 0; i < quantidade_de_vendas; i++){
         total_das_vendas += vetor_vendas[i].total_a_pagar;
@@ -219,10 +282,10 @@ int main(){
     int quantidade_de_sorteios = 0;
     int quantidade_de_clientes = 0;
 
-
     int variavel_contagem_vetor_vendas = 0;
 
     while (1){
+        //system("cls");
         printf("\nMenu\n");
         printf("Cadastro de Cliente (1): \nCadastro de Produtos (2): \nVendas (3): \nTotal de Vendas (4): \nSorteio (5): \nSair(6): ");
         scanf("%d", &entrada_usuario);
@@ -233,7 +296,7 @@ int main(){
             printf("Programa Finalizado");
             break;
         }
-
+        //system("cls");
         switch (entrada_usuario){
             case 1: 
                 cadastro_cliente(vetor_clientes, &variavel_contagem_vetor_cliente, &quantidade_de_clientes);
@@ -242,7 +305,7 @@ int main(){
                 cadastro_produtos(vetor_produtos, &variavel_contagem_vetor_produto);
                 break;
             case 3:
-                vendas_realizadas(vetor_clientes, vetor_produtos, vetor_vendas, vetor_compras, &variavel_contagem_vetor_vendas, &variavel_contagem_vetor_produto, quantidade_de_vendas, &quantidade_de_sorteios);
+                vendas_realizadas(vetor_clientes,vetor_produtos, vetor_vendas, vetor_compras, &variavel_contagem_vetor_vendas, &variavel_contagem_vetor_produto, &quantidade_de_vendas, &quantidade_de_sorteios,&variavel_contagem_vetor_cliente);
                 break;
             case 4:
                 printf("Total de Vendas: %d\n", totalize_vendas(vetor_vendas, quantidade_de_vendas));
