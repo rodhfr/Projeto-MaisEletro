@@ -20,6 +20,4 @@ int cadastrarVenda(Tcliente vetorClientes[], Tprodutos vetorProdutos[], Tvendas 
 void tabelaVendas(Tvendas vetorVendas[], Tcliente vetorClientes[], Tprodutos vetorProdutos[], float totalVendasLoja, int qntdVendasLoja);
 int realizarSorteio(Tcliente vetorClientes[], int qntdClientesLoja, Tsorteio *sorteio);
 
-
-
 #endif // FUNCOES_H
