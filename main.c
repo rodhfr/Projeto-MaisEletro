@@ -100,10 +100,10 @@ int main(){
                 break;
             case 6:
                 printf("Programa Finalizado");
-                return 0;
                 salvarClientes(vetorClientes, qntdClientesLoja, "clientes.dat");
                 salvarProdutos(vetorProdutos, qntdProdutosLoja, "produtos.dat");
                 salvarVendas(vetorVendas, qntdVendasLoja, "vendas.dat");
+                return 0;
             default:
                 printf("Opcao invalida\n");
                 pausar();
