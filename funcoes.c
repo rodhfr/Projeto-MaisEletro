@@ -384,3 +384,81 @@ int realizarSorteio(Tcliente vetorClientes[], int qntdClientesLoja, Tsorteio *so
         return 1;
     }
 }
+
+void salvarClientes(Tcliente vetorClientes[], int qntdClientesLoja, const char *nomeArquivo) {
+    FILE *arquivo = fopen(nomeArquivo, "wb"); // Modo binário para gravar
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo %s para escrita.\n", nomeArquivo);
+        return;
+    }
+    fwrite(&qntdClientesLoja, sizeof(int), 1, arquivo); // Grava a quantidade de clientes
+    fwrite(vetorClientes, sizeof(Tcliente), qntdClientesLoja, arquivo); // Grava os clientes
+    fclose(arquivo);
+    printf("Clientes salvos com sucesso no arquivo %s.\n", nomeArquivo);
+}
+
+// Função para salvar produtos em um arquivo
+void salvarProdutos(Tprodutos vetorProdutos[], int qntdProdutosLoja, const char *nomeArquivo) {
+    FILE *arquivo = fopen(nomeArquivo, "wb");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo %s para escrita.\n", nomeArquivo);
+        return;
+    }
+    fwrite(&qntdProdutosLoja, sizeof(int), 1, arquivo); // Grava a quantidade de produtos
+    fwrite(vetorProdutos, sizeof(Tprodutos), qntdProdutosLoja, arquivo); // Grava os produtos
+    fclose(arquivo);
+    printf("Produtos salvos com sucesso no arquivo %s.\n", nomeArquivo);
+}
+
+// Função para salvar vendas em um arquivo
+void salvarVendas(Tvendas vetorVendas[], int qntdVendasLoja, const char *nomeArquivo) {
+    FILE *arquivo = fopen(nomeArquivo, "wb");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo %s para escrita.\n", nomeArquivo);
+        return;
+    }
+    fwrite(&qntdVendasLoja, sizeof(int), 1, arquivo); // Grava a quantidade de vendas
+    fwrite(vetorVendas, sizeof(Tvendas), qntdVendasLoja, arquivo); // Grava as vendas
+    fclose(arquivo);
+    printf("Vendas salvas com sucesso no arquivo %s.\n", nomeArquivo);
+}
+
+
+void carregarClientes(Tcliente vetorClientes[], int *qntdClientesLoja, const char *nomeArquivo) {
+    FILE *arquivo = fopen(nomeArquivo, "rb"); // Modo binário para leitura
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo %s para leitura. Criando um novo arquivo.\n", nomeArquivo);
+        return;
+    }
+    fread(qntdClientesLoja, sizeof(int), 1, arquivo); // Lê a quantidade de clientes
+    fread(vetorClientes, sizeof(Tcliente), *qntdClientesLoja, arquivo); // Lê os clientes
+    fclose(arquivo);
+    printf("Clientes carregados com sucesso do arquivo %s.\n", nomeArquivo);
+}
+
+// Função para carregar produtos de um arquivo
+void carregarProdutos(Tprodutos vetorProdutos[], int *qntdProdutosLoja, const char *nomeArquivo) {
+    FILE *arquivo = fopen(nomeArquivo, "rb");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo %s para leitura. Criando um novo arquivo.\n", nomeArquivo);
+        return;
+    }
+    fread(qntdProdutosLoja, sizeof(int), 1, arquivo); // Lê a quantidade de produtos
+    fread(vetorProdutos, sizeof(Tprodutos), *qntdProdutosLoja, arquivo); // Lê os produtos
+    fclose(arquivo);
+    printf("Produtos carregados com sucesso do arquivo %s.\n", nomeArquivo);
+}
+
+// Função para carregar vendas de um arquivo
+void carregarVendas(Tvendas vetorVendas[], int *qntdVendasLoja, const char *nomeArquivo) {
+    FILE *arquivo = fopen(nomeArquivo, "rb");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo %s para leitura. Criando um novo arquivo.\n", nomeArquivo);
+        return;
+    }
+    fread(qntdVendasLoja, sizeof(int), 1, arquivo); // Lê a quantidade de vendas
+    fread(vetorVendas, sizeof(Tvendas), *qntdVendasLoja, arquivo); // Lê as vendas
+    fclose(arquivo);
+    printf("Vendas carregadas com sucesso do arquivo %s.\n", nomeArquivo);
+}
+
