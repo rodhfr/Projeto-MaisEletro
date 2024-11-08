@@ -27,8 +27,10 @@ int main(){
     int qntdClientesLoja = 0;
     int qntdVendasLoja = 0;
     int totalVendasLoja = 0;
-
     int userInput; 
+    carregarClientes(vetorClientes, &qntdClientesLoja, "clientes.dat");
+    carregarProdutos(vetorProdutos, &qntdProdutosLoja, "produtos.dat");
+    carregarVendas(vetorVendas, &qntdVendasLoja, "vendas.dat");
 
     while (1){
         system(CLEAR_COMMAND); // Limpa o terminal antes de exibir o menu
@@ -98,6 +100,9 @@ int main(){
                 break;
             case 6:
                 printf("Programa Finalizado");
+                salvarClientes(vetorClientes, qntdClientesLoja, "clientes.dat");
+                salvarProdutos(vetorProdutos, qntdProdutosLoja, "produtos.dat");
+                salvarVendas(vetorVendas, qntdVendasLoja, "vendas.dat");
                 return 0;
             default:
                 printf("Opcao invalida\n");
